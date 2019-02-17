@@ -16,7 +16,7 @@ SilverStripe 4
 
 ![First load](docs/en/_images/01-load.png)
 
-See [user guide](https://github.com/fromholdio/silverstripe-dependentgroupeddropdownfield/docs/en/userguide.md) for usage screenshots.
+See [user guide](docs/en/userguide.md) for usage screenshots.
 
 ## Usage example
 
