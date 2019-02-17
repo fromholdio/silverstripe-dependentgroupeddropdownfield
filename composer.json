@@ -1,21 +1,36 @@
 {
 	"name": "fromholdio/silverstripe-dependentgroupeddropdownfield",
-	"description": "Adds a dependant grouped dropdown field to the site.",
 	"type": "silverstripe-vendormodule",
-	"license": "proprietary",
-	"keywords": ["silverstripe", "dependant", "dropdown", "grouped"],
+	"description": "A silverstripe groupeddropdown field that has it's options populated via ajax, based on the value of the field it depends on",
+	"license": "BSD-3-Clause",
+	"keywords": [
+		"silverstripe",
+		"dropdown",
+		"groupeddropdown"
+	],
+	"homepage": "https://github.com/fromholdio/silverstripe-dependentgroupeddropdownfield",
+	"support": {
+		"issues": "https://github.com/fromholdio/silverstripe-dependentgroupeddropdownfield/issues"
+	},
+	"authors": [{
+		"name": "Luke Fromhold",
+		"homepage": "https://fromhold.io"
+	}],
 	"require": {
-        "silverstripe/cms": "^4.2.1",
-        "silverstripe/vendor-plugin": "^1"
+		"php": ">=5.6",
+		"silverstripe/vendor-plugin": "^1.0",
+		"silverstripe/framework": "^4.0"
+	},
+	"autoload": {
+		"psr-4": {
+			"Fromholdio\\DependentGroupedDropdownField\\": "src/"
+		}
 	},
     "extra": {
         "expose": [
             "client"
         ]
     },
-	"autoload": {
-		"psr-4": {
-			"Fromholdio\\DependentGroupedDropdownField\\": "src/"
-		}
-	}
+	"prefer-stable": true,
+	"minimum-stability": "dev"
 }

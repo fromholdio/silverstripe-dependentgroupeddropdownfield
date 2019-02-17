@@ -104,7 +104,7 @@ class DependentGroupedDropdownField extends GroupedDropdownField {
 
     public function Field($properties = [])
     {
-        Requirements::javascript('resources/fromholdio-dependentgroupeddropdownfield/client/js/dependentgroupeddropdown.js');
+        Requirements::javascript('fromholdio/silverstripe-dependentgroupeddropdownfield:client/js/dependentgroupeddropdown.js');
 
         $this->setAttribute('data-link', $this->Link('load'));
         $this->setAttribute('data-depends', $this->getDepends()->getName());
