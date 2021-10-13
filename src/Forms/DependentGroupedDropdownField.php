@@ -19,9 +19,15 @@ class DependentGroupedDropdownField extends GroupedDropdownField {
     protected $unselected;
     protected $sourceCallback;
 
-    public function __construct($name, $title = null, \Closure $source, $value = '', $form = null, $emptyString = null)
+    public function __construct($name, $title = null, ?callable $source = null, $value = '', $form = null, $emptyString = null)
     {
         parent::__construct($name, $title, [], $value);
+
+        if (is_null($source)) {
+            throw new \UnexpectedValueException(
+                'You must provide a callable $source value to ' . static::class . '.'
+            );
+        }
 
         // we are unable to store Closure as a normal source
         $this->sourceCallback = $source;
