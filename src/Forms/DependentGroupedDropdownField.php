@@ -50,7 +50,7 @@ class DependentGroupedDropdownField extends GroupedDropdownField {
             }
         }
 
-        $response->setBody(Convert::array2json($results));
+        $response->setBody(json_encode($results));
 
         return $response;
     }
