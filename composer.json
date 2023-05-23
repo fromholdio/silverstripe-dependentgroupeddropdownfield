@@ -17,9 +17,9 @@
 		"homepage": "https://fromhold.io"
 	}],
 	"require": {
-		"php": ">=5.6",
-		"silverstripe/vendor-plugin": "^1.0",
-		"silverstripe/framework": "^4.0"
+		"php": ">=7.4",
+        "silverstripe/vendor-plugin": "~1.0 || ~2.0",
+        "silverstripe/framework": "~4.11 || ~5.0"
 	},
 	"autoload": {
 		"psr-4": {
