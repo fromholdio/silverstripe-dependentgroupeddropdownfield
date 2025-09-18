@@ -2,11 +2,11 @@
 
 A SilverStripe grouped dropdown field that has its options populated via ajax, based on the value of the dropdown field it depends on.
 
-N.b. This is basically a direct port of Shea Dawson's [silverstripe-dependentdropdownfield](https://github.com/sheadawson/silverstripe-dependentdropdownfield) that applies the ajax to a `GroupedDropdownField` rather than a `DropdownField`.
+Note - this has been changed from v4+ from a fork of Shea Dawson's [silverstripe-dependentdropdownfield](https://github.com/sheadawson/silverstripe-dependentdropdownfield) to an extension of it instead. That is, the DependentGroupedDropdownField in this module is a subclass of the source DependentDropdownField.
 
 ## Requirements
 
-SilverStripe 4
+SilverStripe 6.x
 
 ## Installation
 

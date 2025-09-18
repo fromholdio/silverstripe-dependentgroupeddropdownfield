@@ -5,55 +5,83 @@ jQuery.entwine("dependentgroupeddropdown", function ($) {
             var drop = this;
             var fieldName = drop.data('depends').replace(/[#;&,.+*~':"!^$[\]()=>|\/]/g, "\\$&");
             var depends = ($(":input[name=" + fieldName + "]"));
-            var dependsTreedropdownfield = ($(".TreeDropdownField[id$=" + fieldName + "]"));
+            var dependsTreedropdownfield = ($(".listbox[id$=" + fieldName + "]"));
+            var displayError = function(data, element) {
+                element.parent().append($("<div class='mt-1 mb-0 message error'/>").text(data.error));
+            };
 
             this.parents('.field:first').addClass('dropdown');
 
-            if (dependsTreedropdownfield.length)
-            {
+            if (dependsTreedropdownfield.length) {
                 dependsTreedropdownfield.on('change', function (e) {
-                    var newValue = $(":input[name=" + fieldName + "]").val();
+                    var newValue = dependsTreedropdownfield.val();
+                    var selectedValuesArray = drop.val();
+
+                    // if the new value is not set, set it as disabled
                     if (!newValue) {
                         drop.disable(drop.data('unselected'));
+                        return;
                     }
-                    else {
-                        drop.disable("Loading...");
-                        $.get(
-                            drop.data('link'),
-                            {val: newValue},
-                            function (data)
-                            {
-                                drop.enable();
-                                if (drop.data('empty') || drop.data('empty') === "") {
-                                    drop.append($("<option />").val("").text(drop.data('empty')));
-                                }
-                                $.each(data, function ()
-                                {
-                                    var optGroup = $("<optgroup label=\"" + this.k + "\"></optgroup>");
-                                    $.each(this.v, function(k, v) {
-                                        optGroup.append(
-                                            $("<option value=\"" + k + "\">" + v + "</option>")
-                                        );
-                                    });
-                                    drop.append(optGroup);
-                                });
-                                drop.trigger("liszt:updated").trigger("chosen:updated").trigger("change");
-                            }
-                        );
-                    }
-                });
-            }
-            else {
-                depends.change(function () {
-                    if (!this.value) {
-                        drop.disable(drop.data('unselected'));
-                    } else {
-                        drop.disable("Loading...");
 
-                        $.get(drop.data('link'), {
+                    drop.disable("Loading...");
+                    $.get(
+                        drop.data('link'),
+                        {
+                            val: newValue,
+                            selectedValues: selectedValuesArray,
+                        },
+                        function (data) {
+                            var dependant = $('.dependent-dropdown');
+                            var hasError = typeof data.error !== 'undefined';
+
+                            if (dependant.hasClass('chosen-disabled')) {
+                                dependant.removeClass('chosen-disabled');
+                            }
+
+                            if (data.length === 0 || hasError) {
+                                dependant.addClass('chosen-disabled');
+                            }
+
+                            if (hasError) {
+                                return displayError(data, dependsTreedropdownfield);
+                            }
+
+                            drop.enable();
+                            if (drop.data('empty') || drop.data('empty') === "") {
+                                drop.append($("<option />").val("").text(drop.data('empty')));
+                            }
+
+                            $.each(data, function () {
+                                var optGroup = $("<optgroup label=\"" + this.k + "\"></optgroup>");
+                                $.each(this.v, function(k, v) {
+                                    optGroup.append($("<option value=\"" + k + "\">" + v + "</option>"));
+                                });
+                                drop.append(optGroup);
+                            });
+                            drop.trigger("liszt:updated").trigger("chosen:updated").trigger("change");
+                        }
+                    );
+                });
+
+                return;
+            }
+
+            depends.change(function () {
+                if (!this.value) {
+                    drop.disable(drop.data('unselected'));
+                } else {
+                    drop.disable("Loading...");
+
+                    $.get(drop.data('link'), {
                             val: this.value
                         },
                         function (data) {
+                            var hasError = typeof data.error !== 'undefined';
+
+                            if (hasError) {
+                                return displayError(data, depends);
+                            }
+
                             drop.enable();
 
                             if (drop.data('empty') || drop.data('empty') === "") {
@@ -62,23 +90,20 @@ jQuery.entwine("dependentgroupeddropdown", function ($) {
 
                             $.each(data, function () {
                                 var optGroup = $("<optgroup label=\"" + this.k + "\"></optgroup>");
-
                                 $.each(this.v, function(k, v) {
                                     optGroup.append(
                                         $("<option value=\"" + k + "\">" + v + "</option>")
                                     );
                                 });
-
                                 drop.append(optGroup);
                             });
                             drop.trigger("liszt:updated").trigger("chosen:updated").trigger("change");
                         });
-                    }
-                });
-
-                if (!depends.val()) {
-                    drop.disable(drop.data('unselected'));
                 }
+            });
+
+            if (!depends.val()) {
+                drop.disable(drop.data('unselected'));
             }
         },
         disable: function (text) {
