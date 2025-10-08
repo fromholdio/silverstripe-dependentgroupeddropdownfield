@@ -3,7 +3,15 @@ jQuery.entwine("dependentgroupeddropdown", function ($) {
     $(":input.dependent-grouped-dropdown").entwine({
         onmatch: function () {
             var drop = this;
-            var fieldName = drop.data('depends').replace(/[#;&,.+*~':"!^$[\]()=>|\/]/g, "\\$&");
+            var dependsAttr = drop.data('depends');
+
+            // Check if data-depends exists
+            if (!dependsAttr) {
+                console.warn('[DependentGroupedDropdown] Missing data-depends attribute on:', this[0]);
+                return;
+            }
+
+            var fieldName = dependsAttr.replace(/[#;&,.+*~':"!^$[\]()=>|\/]/g, "\\$&");
             var depends = ($(":input[name=" + fieldName + "]"));
             var dependsTreedropdownfield = ($(".listbox[id$=" + fieldName + "]"));
             var displayError = function(data, element) {
