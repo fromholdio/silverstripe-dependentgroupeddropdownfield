@@ -28,8 +28,6 @@ class DependentGroupedDropdownField extends DependentDropdownField
 
     public function Field($properties = [])
     {
-        $field = DropdownField::Field($properties);
-
         if (!is_subclass_of(Controller::curr(), LeftAndMain::class)) {
             Requirements::javascript('silverstripe/admin:thirdparty/jquery-entwine/jquery.entwine.js');
         }
@@ -43,7 +41,7 @@ class DependentGroupedDropdownField extends DependentDropdownField
         $this->setAttribute('data-empty', $this->getEmptyString());
         $this->setAttribute('data-unselected', $this->getUnselectedString());
 
-        return $field;
+        return DropdownField::Field($properties);
     }
 
     /**
